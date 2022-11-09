@@ -1,3 +1,4 @@
+
 import socket
 import sys
 import tkinter.filedialog
@@ -7,7 +8,7 @@ filetosend = tkinter.filedialog.askopenfilename()
 with open(filetosend, "r") as f:
     data = f.read()
 
-HOST = "192.168.1.100"
+HOST = "127.0.0.1"
 PORT = 9999
 
 s = socket.socket(socket.AF_INET,   socket.SOCK_STREAM)
@@ -15,7 +16,7 @@ s.connect((HOST, PORT))
 print("[+] Connected with Server")
 
 # get file name to send
-f_send = "file_to_send.mp3"
+f_send = "pizza.txt"
 # open file
 with open(f_send, "rb") as f:
     # send file
@@ -27,4 +28,3 @@ with open(f_send, "rb") as f:
     s.close()
     print("[-] Disconnected")
     sys.exit(0)
-

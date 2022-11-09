@@ -16,7 +16,7 @@ while True:
     print("[+] Client connected: ", addr)
 
     # get file name to download
-    f = open("file_received.mp3", "wb")
+    f = open("file_received.txt", "wb")
     while True:
         # get file bytes
         data = conn.recv(4096)
