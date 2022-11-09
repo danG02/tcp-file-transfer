@@ -1,9 +1,8 @@
 import socket
 import sys
 
-
 HOST = ""
-PORT = 9999
+PORT = 5001
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
@@ -16,7 +15,7 @@ while True:
     print("[+] Client connected: ", addr)
 
     # get file name to download
-    f = open("file_received.mp3", "wb")
+    f = open("downloaded.txt", "wb")
     while True:
         # get file bytes
         data = conn.recv(4096)
@@ -30,4 +29,4 @@ while True:
     # close connection
     conn.close()
     print("[-] Client disconnected")
-    sys.exit(0)
+    #sys.exit(0)
