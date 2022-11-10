@@ -6,7 +6,7 @@ from tkinter import *
 
 window = Tk()
 window.title("enter IP")
-window.geometry("250x250")
+window.geometry("200x50")
 
 #filetosend = tkinter.filedialog.askopenfilename()
 #with open(filetosend, "r") as f:
@@ -43,6 +43,20 @@ PORT = 5001
 s = socket.socket(socket.AF_INET,   socket.SOCK_STREAM)
 s.connect((HOST, PORT))
 print("[+] Connected with Server")
+
+
+connected = Tk()
+connected.title("Server")
+connected.geometry("100x50")
+
+b1 = Button(connected, text="Upload")
+b1.grid(row=0, column=1)
+b2 = Button(connected, text="Download")
+b2.grid(row=2, column=1)
+
+while True:
+    connected.update_idletasks()
+    connected.update()
 
 # get file name to send
 f_send = "pizza.txt"
