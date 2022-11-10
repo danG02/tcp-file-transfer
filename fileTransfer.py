@@ -47,11 +47,7 @@ print("[+] Connected with Server")
 
 keepWindowOpen = True
 
-def output_file():
-    path = ("C:\\Users\\ibroh\\OneDrive\\Documents\\GitHub\\tcp-file-transfer\\files")
-    arr = os.listdir(path)
-    for i in arr:
-        print(i, end='\n')
+
 def CloseWindow():
     global keepWindowOpen
     keepWindowOpen = False
@@ -60,13 +56,23 @@ connected = Tk()
 connected.title("Server")
 connected.geometry("200x75")
 
+def applytoLabel():
+    path = ("..\\tcp-file-transfer\\files")
+    arr = os.listdir(path)
+    n = len(arr)
+    element = ''
+    for i in range(n):
+        element = element + arr[i] + '\n'
+    return element
+
 b1 = Button(connected, text="Upload")
 b1.grid(row=0, column=0)
 b2 = Button(connected, text="Download")
 b2.grid(row=2, column=0)
 b3 = Button(connected, text="Finish", command=CloseWindow)
 b3.grid(row=3, column=0)
-
+l = Label(connected, text=applytoLabel())
+l.grid(row = 1, column = 1)
 while keepWindowOpen:
     connected.update_idletasks()
     connected.update()
