@@ -85,6 +85,8 @@ b2 = Button(connected, text="Download")
 b2.grid(row=2, column=0)
 b3 = Button(connected, text="Finish", command=CloseWindow)
 b3.grid(row=3, column=0)
+e = Entry(connected)
+e = grid(row=2, column=1)
 l = Label(connected, text=applytoLabel())
 l.grid(row = 1, column = 3)
 while keepWindowOpen:
