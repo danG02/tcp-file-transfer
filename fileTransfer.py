@@ -65,7 +65,17 @@ def applytoLabel():
         element = element + arr[i] + '\n'
     return element
 
-b1 = Button(connected, text="Upload")
+def UploadFile():
+    filepath = tkinter.filedialog.askopenfilename()
+    print(filepath)
+    # open file
+    with open(filepath, "rb") as f:
+        # send file
+        print("[+] Sending file...")
+        data = f.read()
+        s.sendall(data)
+
+b1 = Button(connected, text="Upload", command=UploadFile)
 b1.grid(row=0, column=0)
 b2 = Button(connected, text="Download")
 b2.grid(row=2, column=0)

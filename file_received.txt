@@ -1,1 +1,2 @@
-pizza
+docker run -p3000:3000 -itd --rm -v"$PWD":/home/node/app -e MYSQL_ROOT_PASSWORD=rootpass -p3306:3306 nvm-mysqljquery
+jquery- whatever

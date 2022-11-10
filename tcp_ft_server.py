@@ -17,7 +17,7 @@ while True:
     i=1
     while True:
         # get file name to download
-        f = open('file_'+ str(i)+".txt",'wb') # Open in binary
+        f = open('.\\files\\file_'+ str(i)+".txt",'wb') # Open in binary
         i=i+1
         # get file bytes
         data = conn.recv(4096)
