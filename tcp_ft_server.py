@@ -1,5 +1,6 @@
 import socket
 import sys
+import pickle
 
 HOST = ""
 PORT = 5001
@@ -14,20 +15,22 @@ while True:
     conn, addr = s.accept()
     print("[+] Client connected: ", addr)
 
-    i=1
+    size = 4096
     while True:
         # get file name to download
-        f = open('.\\files\\file_'+ str(i)+".txt",'wb') # Open in binary
-        #f = open('./files/file_' + str(i)+".txt","wb") #uncomment this if on mac
-        i=i+1
+        # Read shove it in a dictionary -> {file name: ~, data: ~}
+        #f = open('.\\files\\file_'+ str(i)+".txt",'wb') # Open in binary
         # get file bytes
-        data = conn.recv(4096)
-        if not data:
-            break
+        data = conn.recv(size)
+        if size == 4096:
+            size = len(data)
+        obj = pickle.loads(data)
+        f = open('files/' + obj['filename'],"ba") #uncomment this if on mac
         # write bytes on file
-        f.write(data)
-    f.close()
-    print("[+] Download complete!")
+        f.write(obj['data'])
+        f.close()
+
+    #print("[+] Download complete!")
 
     # close connection
     conn.close()

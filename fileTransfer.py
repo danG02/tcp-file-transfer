@@ -5,6 +5,7 @@ import tkinter.filedialog
 from tkinter import *
 import os
 import glob
+import pickle
 window = Tk()
 window.title("enter IP")
 window.geometry("200x50")
@@ -61,8 +62,8 @@ connected.title("Server")
 connected.geometry("500x200")
 
 def applytoLabel():
-    path = (".\\files")
-    #path = ("../tcp-file-transfer/files") #uncomment this line if on mac
+    #path = (".\\files")
+    path = ("files") #uncomment this line if on mac
     arr = os.listdir(path)
     n = len(arr)
     element = ''
@@ -77,8 +78,15 @@ def UploadFile():
     with open(filepath, "rb") as f:
         # send file
         print("[+] Sending file...")
-        data = f.read()
-        s.sendall(data)
+        n = 1000
+        while True:
+            chunk = f.read(n)
+            if chunk == '':
+                break
+            obj = {'filename': filepath.split('/')[-1], 'data': chunk}
+            print(len(pickle.dumps(obj)))
+            s.sendall(pickle.dumps(obj))
+        print("Done Sending!")
 
 b1 = Button(connected, text="Upload", command=UploadFile)
 b1.grid(row=0, column=0)
