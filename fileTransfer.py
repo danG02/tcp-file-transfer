@@ -58,10 +58,10 @@ def CloseWindow():
 
 connected = Tk()
 connected.title("Server")
-connected.geometry("200x75")
+connected.geometry("500x200")
 
 def applytoLabel():
-    path = ("..\\tcp-file-transfer\\files")
+    path = (".\\files")
     arr = os.listdir(path)
     n = len(arr)
     element = ''
