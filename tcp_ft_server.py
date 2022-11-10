@@ -14,9 +14,11 @@ while True:
     conn, addr = s.accept()
     print("[+] Client connected: ", addr)
 
-    # get file name to download
-    f = open("file_received.txt", "wb")
+    i=1
     while True:
+        # get file name to download
+        f = open('file_'+ str(i)+".txt",'wb') # Open in binary
+        i=i+1
         # get file bytes
         data = conn.recv(4096)
         if not data:
