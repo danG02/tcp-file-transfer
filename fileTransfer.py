@@ -5,6 +5,8 @@ import tkinter.filedialog
 from tkinter import *
 import os
 import glob
+from tkinter import filedialog
+
 window = Tk()
 window.title("enter IP")
 window.geometry("200x50")
@@ -48,19 +50,35 @@ print("[+] Connected with Server")
 keepWindowOpen = True
 
 def output_file():
-    path = ("C:\\Users\\ibroh\\OneDrive\\Documents\\GitHub\\tcp-file-transfer\\files")
+    path = ("..\tcp-file-transfer\\files")
     arr = os.listdir(path)
     for i in arr:
         print(i, end='\n')
+
 def CloseWindow():
     global keepWindowOpen
     keepWindowOpen = False
+    # close connection
+    s.close()
+    print("[-] Disconnected")
+    sys.exit(0)
 
 connected = Tk()
 connected.title("Server")
 connected.geometry("200x75")
 
-b1 = Button(connected, text="Upload")
+def UploadFile():
+    filepath = tkinter.filedialog.askopenfilename()
+    print(filepath)
+    # open file
+    with open(filepath, "rb") as f:
+        # send file
+        print("[+] Sending file...")
+        data = f.read()
+        s.sendall(data)
+
+
+b1 = Button(connected, text="Upload", command=UploadFile)
 b1.grid(row=0, column=0)
 b2 = Button(connected, text="Download")
 b2.grid(row=2, column=0)
@@ -72,17 +90,3 @@ while keepWindowOpen:
     connected.update()
 
 connected.destroy()
-
-# get file name to send
-f_send = "pizza.txt"
-# open file
-with open(f_send, "rb") as f:
-    # send file
-    print("[+] Sending file...")
-    data = f.read()
-    s.sendall(data)
-
-    # close connection
-    s.close()
-    print("[-] Disconnected")
-    sys.exit(0)
