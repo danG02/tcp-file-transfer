@@ -51,6 +51,10 @@ keepWindowOpen = True
 def CloseWindow():
     global keepWindowOpen
     keepWindowOpen = False
+    # close connection
+    s.close()
+    print("[-] Disconnected")
+    sys.exit(0)
 
 connected = Tk()
 connected.title("Server")
@@ -88,17 +92,3 @@ while keepWindowOpen:
     connected.update()
 
 connected.destroy()
-
-# get file name to send
-f_send = "pizza.txt"
-# open file
-with open(f_send, "rb") as f:
-    # send file
-    print("[+] Sending file...")
-    data = f.read()
-    s.sendall(data)
-
-    # close connection
-    s.close()
-    print("[-] Disconnected")
-    sys.exit(0)
