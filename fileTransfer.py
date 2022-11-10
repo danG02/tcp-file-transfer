@@ -3,7 +3,8 @@ import socket
 import sys
 import tkinter.filedialog
 from tkinter import *
-
+import os
+import glob
 window = Tk()
 window.title("enter IP")
 window.geometry("200x50")
@@ -45,6 +46,12 @@ s.connect((HOST, PORT))
 print("[+] Connected with Server")
 
 keepWindowOpen = True
+
+def output_file():
+    path = ("C:\\Users\\ibroh\\OneDrive\\Documents\\GitHub\\tcp-file-transfer\\files")
+    arr = os.listdir(path)
+    for i in arr:
+        print(i, end='\n')
 def CloseWindow():
     global keepWindowOpen
     keepWindowOpen = False
