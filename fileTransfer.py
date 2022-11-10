@@ -62,6 +62,7 @@ connected.geometry("500x200")
 
 def applytoLabel():
     path = (".\\files")
+    #path = ("../tcp-file-transfer/files") #uncomment this line if on mac
     arr = os.listdir(path)
     n = len(arr)
     element = ''
