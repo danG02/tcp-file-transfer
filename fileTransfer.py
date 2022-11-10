@@ -44,19 +44,27 @@ s = socket.socket(socket.AF_INET,   socket.SOCK_STREAM)
 s.connect((HOST, PORT))
 print("[+] Connected with Server")
 
+keepWindowOpen = True
+def CloseWindow():
+    global keepWindowOpen
+    keepWindowOpen = False
 
 connected = Tk()
 connected.title("Server")
-connected.geometry("100x50")
+connected.geometry("200x75")
 
 b1 = Button(connected, text="Upload")
-b1.grid(row=0, column=1)
+b1.grid(row=0, column=0)
 b2 = Button(connected, text="Download")
-b2.grid(row=2, column=1)
+b2.grid(row=2, column=0)
+b3 = Button(connected, text="Finish", command=CloseWindow)
+b3.grid(row=3, column=0)
 
-while True:
+while keepWindowOpen:
     connected.update_idletasks()
     connected.update()
+
+connected.destroy()
 
 # get file name to send
 f_send = "pizza.txt"
