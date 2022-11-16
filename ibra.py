@@ -1,10 +1,12 @@
 import os
 from tkinter import *
 import tkinter.messagebox as box
-
+import tkinter.filedialog
+import requests
 connected = Tk()
 connected.title("Server")
 connected.geometry("500x200")
+
 def downloadFile():
     window = Tk()
     window.title('Downloads')
@@ -16,6 +18,14 @@ def downloadFile():
     myListBox.pack()
 
     def dialog():
+        filepath = (".\\files\\" + myListBox.get(myListBox.curselection()))
+        print(filepath)
+        directory = os.getcwd()
+        with open(directory, "rb") as f:
+            print("[+] Downloading file...")
+            r = requests.get(filepath)
+            f.write(r.content)
+            print("Done Downloading!")
         box.showinfo('Selection', 'Your Choice: ' + \
                      myListBox.get(myListBox.curselection()) + ' was downloaded successfully')
 

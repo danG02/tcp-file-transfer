@@ -1,4 +1,4 @@
-
+  
 import socket
 import sys
 import tkinter.filedialog
@@ -6,6 +6,7 @@ from tkinter import *
 import os
 import glob
 import pickle
+import tkinter.messagebox as box
 window = Tk()
 window.title("enter IP")
 window.geometry("200x50")
@@ -13,8 +14,8 @@ window.geometry("200x50")
 #filetosend = tkinter.filedialog.askopenfilename()
 #with open(filetosend, "r") as f:
 #    data = f.read()
-
-
+nameFile =""
+filename = StringVar()
 HOST = ""
 WaitForIP = True
 
@@ -61,15 +62,16 @@ connected = Tk()
 connected.title("Server")
 connected.geometry("500x200")
 
-def applytoLabel():
+
+#def applytoLabel():
     #path = (".\\files")
-    path = ("files") #uncomment this line if on mac
-    arr = os.listdir(path)
-    n = len(arr)
-    element = ''
-    for i in range(n):
-        element = element + arr[i] + '\n'
-    return element
+ #   path = ("files") #uncomment this line if on mac
+  #  arr = os.listdir(path)
+   # n = len(arr)
+    #element = ''
+    #for i in range(n):
+    #    element = element + arr[i] + '\n'
+   # return element
 
 def UploadFile():
     filepath = tkinter.filedialog.askopenfilename()
@@ -83,21 +85,60 @@ def UploadFile():
             chunk = f.read(n)
             if chunk == '':
                 break
-            obj = {'filename': filepath.split('/')[-1], 'data': chunk}
+            obj = {'filename': filepath.split('/')[-1], 'data': chunk, 'mode': "upload"}
             print(len(pickle.dumps(obj)))
             s.sendall(pickle.dumps(obj))
         print("Done Sending!")
 
+
+def getDirectory():
+    global nameFile
+    obj = {'mode': "dir"}
+    s.sendall(pickle.dumps(obj))
+    rcv = s.recv(1024)
+    obj2 = pickle.loads(rcv)
+
+    window = Tk()
+    window.title('Downloads')
+    frame = Frame(window)
+    myListBox = Listbox(window)
+    for file in obj2:
+        myListBox.insert(END, file)
+    myListBox.pack()
+
+    def dialog():
+        global nameFile
+        box.showinfo('Selection', 'Your Choice: ' + \
+                     myListBox.get(myListBox.curselection()) + ' was downloaded successfully')
+        nameFile = myListBox.get(myListBox.curselection())
+    btn = Button(frame, text='Download File', command=dialog)
+    btn.pack(side=RIGHT, padx=5)
+    myListBox.pack(side=LEFT)
+    frame.pack(padx=30, pady=30)
+    print(nameFile)
+
+    obj3 = {'filename': myListBox.get(myListBox.curselection()), 'mode': "download"}
+    s.sendall(pickle.dumps(obj3))
+
+
+    finalFile = s.recv(1024)
+    objFinal = pickle.loads(finalFile)
+    f = open(".\\files2" + objFinal['filename'], "ba")  # uncomment this if on mac
+    f.write(objFinal['data'])
+    f.close()
+
+#def downloadFile():
+
+
 b1 = Button(connected, text="Upload", command=UploadFile)
 b1.grid(row=0, column=0)
-b2 = Button(connected, text="Download")
+b2 = Button(connected, text="Download", command=getDirectory)
 b2.grid(row=2, column=0)
 b3 = Button(connected, text="Finish", command=CloseWindow)
 b3.grid(row=3, column=0)
-e = Entry(connected)
-e.grid(row=2, column=1)
-l = Label(connected, text=applytoLabel())
-l.grid(row = 1, column = 3)
+
+
+
 while keepWindowOpen:
     connected.update_idletasks()
     connected.update()
